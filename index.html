@@ -187,9 +187,17 @@
                     this.lastMouseY = null;
                     this.lastMouseVelX = 0;
                     this.lastMouseVelY = 0;
+
+                    // Idle floating animation
+                    this.idleTime = Math.random() * Math.PI * 2; // random phase offset
+                    this.idleSpeed = 0.3 + Math.random() * 0.4; // slightly varied speed
+                    this.idleAmplitude = 1.5 + Math.random() * 1.5; // 1.5-3px float range
                 }
 
-                update(mx, my, dispersionRadius) {
+                update(mx, my, dispersionRadius, time) {
+                    // Idle floating animation when not dispersed
+                    this.idleTime += 0.016 * this.idleSpeed;
+                    
                     if (this.lastMouseX !== null) {
                         this.lastMouseVelX = mx - this.lastMouseX;
                         this.lastMouseVelY = my - this.lastMouseY;
@@ -293,9 +301,18 @@
                 draw(ctx) {
                     ctx.fillStyle = this.isWhite ? "#baff00" : "#d9d6d6";
                     const offset = (this.currentSize - this.baseSize) / 2;
+                    
+                    // Apply idle floating offset when not dispersed
+                    let drawX = this.pos.x;
+                    let drawY = this.pos.y;
+                    if (!this.dispersed) {
+                        drawY += Math.sin(this.idleTime) * this.idleAmplitude;
+                        drawX += Math.sin(this.idleTime * 0.7 + this.bayerX) * this.idleAmplitude * 0.3;
+                    }
+                    
                     ctx.fillRect(
-                        this.pos.x - offset,
-                        this.pos.y - offset,
+                        drawX - offset,
+                        drawY - offset,
                         this.currentSize,
                         this.currentSize,
                     );
