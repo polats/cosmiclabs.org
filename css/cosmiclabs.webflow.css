@@ -3595,6 +3595,7 @@ textarea.w-input, textarea.w-select {
     position: relative;
     bottom: 0%;
     right: 0%;
+    margin-bottom: 30px;
   }
 
   .topleft {
@@ -3602,8 +3603,8 @@ textarea.w-input, textarea.w-select {
     margin-left: auto;
     margin-right: auto;
     position: absolute;
-    inset: auto 0% 8%;
-    padding-top: 15px;
+    inset: auto 0% 2%;
+    margin-top: 40px;
   }
 
   .background {
